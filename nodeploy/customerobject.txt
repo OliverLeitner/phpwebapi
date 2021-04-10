@@ -1,0 +1,19 @@
+{
+    "Customerss": [
+        {
+            "Customernumber": 103,
+            "Customername": "Atelier graphique",
+            "Contactlastname": "Schmitt",
+            "Contactfirstname": "Carine ",
+            "Phone": "40.32.2555",
+            "Addressline1": "54, rue Royale",
+            "Addressline2": null,
+            "City": "Nantes",
+            "State": null,
+            "Postalcode": "44000",
+            "Country": "France",
+            "Salesrepemployeenumber": 1370,
+            "Creditlimit": "21000.00"
+        }
+    ]
+}

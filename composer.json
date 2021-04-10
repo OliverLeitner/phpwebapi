@@ -1,0 +1,18 @@
+{
+    "require": {
+        "propel/propel": "~2.0@dev",
+        "monolog/monolog": "^2.2",
+        "bramus/router": "~1.5",
+        "lcobucci/jwt": "^4.1"
+    },
+    "autoload": {
+        "classmap": [
+            "generated-classes/"
+        ]
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-rest": "^1.0.0",
+        "codeception/module-phpbrowser": "^1.0.0"
+    }
+}

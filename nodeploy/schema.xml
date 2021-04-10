@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="customers" idMethod="native" phpName="Customers">
+    <column name="customerNumber" phpName="Customernumber" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="customerName" phpName="Customername" type="VARCHAR" size="50" required="true"/>
+    <column name="contactLastName" phpName="Contactlastname" type="VARCHAR" size="50" required="true"/>
+    <column name="contactFirstName" phpName="Contactfirstname" type="VARCHAR" size="50" required="true"/>
+    <column name="phone" phpName="Phone" type="VARCHAR" size="50" required="true"/>
+    <column name="addressLine1" phpName="Addressline1" type="VARCHAR" size="50" required="true"/>
+    <column name="addressLine2" phpName="Addressline2" type="VARCHAR" size="50"/>
+    <column name="city" phpName="City" type="VARCHAR" size="50" required="true"/>
+    <column name="state" phpName="State" type="VARCHAR" size="50"/>
+    <column name="postalCode" phpName="Postalcode" type="VARCHAR" size="15"/>
+    <column name="country" phpName="Country" type="VARCHAR" size="50" required="true"/>
+    <column name="salesRepEmployeeNumber" phpName="Salesrepemployeenumber" type="INTEGER"/>
+    <column name="creditLimit" phpName="Creditlimit" type="DECIMAL" size="10" scale="2"/>
+    <foreign-key foreignTable="employees" name="customers_ibfk_1">
+      <reference local="salesRepEmployeeNumber" foreign="employeeNumber"/>
+    </foreign-key>
+    <index name="salesRepEmployeeNumber">
+      <index-column name="salesRepEmployeeNumber"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="employees" idMethod="native" phpName="Employees">
+    <column name="employeeNumber" phpName="Employeenumber" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="lastName" phpName="Lastname" type="VARCHAR" size="50" required="true"/>
+    <column name="firstName" phpName="Firstname" type="VARCHAR" size="50" required="true"/>
+    <column name="extension" phpName="Extension" type="VARCHAR" size="10" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="100" required="true"/>
+    <column name="officeCode" phpName="Officecode" type="VARCHAR" size="10" required="true"/>
+    <column name="reportsTo" phpName="Reportsto" type="INTEGER"/>
+    <column name="jobTitle" phpName="Jobtitle" type="VARCHAR" size="50" required="true"/>
+    <foreign-key foreignTable="employees" name="employees_ibfk_1">
+      <reference local="reportsTo" foreign="employeeNumber"/>
+    </foreign-key>
+    <foreign-key foreignTable="offices" name="employees_ibfk_2">
+      <reference local="officeCode" foreign="officeCode"/>
+    </foreign-key>
+    <index name="reportsTo">
+      <index-column name="reportsTo"/>
+    </index>
+    <index name="officeCode">
+      <index-column name="officeCode"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="offices" idMethod="native" phpName="Offices">
+    <column name="officeCode" phpName="Officecode" type="VARCHAR" size="10" primaryKey="true" required="true"/>
+    <column name="city" phpName="City" type="VARCHAR" size="50" required="true"/>
+    <column name="phone" phpName="Phone" type="VARCHAR" size="50" required="true"/>
+    <column name="addressLine1" phpName="Addressline1" type="VARCHAR" size="50" required="true"/>
+    <column name="addressLine2" phpName="Addressline2" type="VARCHAR" size="50"/>
+    <column name="state" phpName="State" type="VARCHAR" size="50"/>
+    <column name="country" phpName="Country" type="VARCHAR" size="50" required="true"/>
+    <column name="postalCode" phpName="Postalcode" type="VARCHAR" size="15" required="true"/>
+    <column name="territory" phpName="Territory" type="VARCHAR" size="10" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="orderdetails" idMethod="native" phpName="Orderdetails">
+    <column name="orderNumber" phpName="Ordernumber" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="productCode" phpName="Productcode" type="VARCHAR" size="15" primaryKey="true" required="true"/>
+    <column name="quantityOrdered" phpName="Quantityordered" type="INTEGER" required="true"/>
+    <column name="priceEach" phpName="Priceeach" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="orderLineNumber" phpName="Orderlinenumber" type="SMALLINT" required="true"/>
+    <foreign-key foreignTable="orders" name="orderdetails_ibfk_1">
+      <reference local="orderNumber" foreign="orderNumber"/>
+    </foreign-key>
+    <foreign-key foreignTable="products" name="orderdetails_ibfk_2">
+      <reference local="productCode" foreign="productCode"/>
+    </foreign-key>
+    <index name="productCode">
+      <index-column name="productCode"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="orders" idMethod="native" phpName="Orders">
+    <column name="orderNumber" phpName="Ordernumber" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="orderDate" phpName="Orderdate" type="DATE" required="true"/>
+    <column name="requiredDate" phpName="Requireddate" type="DATE" required="true"/>
+    <column name="shippedDate" phpName="Shippeddate" type="DATE"/>
+    <column name="status" phpName="Status" type="VARCHAR" size="15" required="true"/>
+    <column name="comments" phpName="Comments" type="LONGVARCHAR"/>
+    <column name="customerNumber" phpName="Customernumber" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="customers" name="orders_ibfk_1">
+      <reference local="customerNumber" foreign="customerNumber"/>
+    </foreign-key>
+    <index name="customerNumber">
+      <index-column name="customerNumber"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="payments" idMethod="native" phpName="Payments">
+    <column name="customerNumber" phpName="Customernumber" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="checkNumber" phpName="Checknumber" type="VARCHAR" size="50" primaryKey="true" required="true"/>
+    <column name="paymentDate" phpName="Paymentdate" type="DATE" required="true"/>
+    <column name="amount" phpName="Amount" type="DECIMAL" size="10" scale="2" required="true"/>
+    <foreign-key foreignTable="customers" name="payments_ibfk_1">
+      <reference local="customerNumber" foreign="customerNumber"/>
+    </foreign-key>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="productlines" idMethod="native" phpName="Productlines">
+    <column name="productLine" phpName="Productline" type="VARCHAR" size="50" primaryKey="true" required="true"/>
+    <column name="textDescription" phpName="Textdescription" type="VARCHAR" size="4000"/>
+    <column name="htmlDescription" phpName="Htmldescription" type="LONGVARCHAR"/>
+    <column name="image" phpName="Image" type="VARBINARY"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="products" idMethod="native" phpName="Products">
+    <column name="productCode" phpName="Productcode" type="VARCHAR" size="15" primaryKey="true" required="true"/>
+    <column name="productName" phpName="Productname" type="VARCHAR" size="70" required="true"/>
+    <column name="productLine" phpName="Productline" type="VARCHAR" size="50" required="true"/>
+    <column name="productScale" phpName="Productscale" type="VARCHAR" size="10" required="true"/>
+    <column name="productVendor" phpName="Productvendor" type="VARCHAR" size="50" required="true"/>
+    <column name="productDescription" phpName="Productdescription" type="LONGVARCHAR" required="true"/>
+    <column name="quantityInStock" phpName="Quantityinstock" type="SMALLINT" required="true"/>
+    <column name="buyPrice" phpName="Buyprice" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="MSRP" phpName="Msrp" type="DECIMAL" size="10" scale="2" required="true"/>
+    <foreign-key foreignTable="productlines" name="products_ibfk_1">
+      <reference local="productLine" foreign="productLine"/>
+    </foreign-key>
+    <index name="productLine">
+      <index-column name="productLine"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>
